@@ -1,0 +1,55 @@
+# Pour executer le script par ligne de commande : R CMD BATCH "Draw.R"
+
+nom1 = "Resultat.out"
+
+
+data1 = read.table(nom1)
+attach(data1);
+N1 =V1
+N2 =V2
+PI1 =V3
+PI2 =V4
+DIFF =V5
+
+
+library(lattice)
+
+
+levelplot(
+  PI1 ~ N1*N2, data = data1, 
+  scales=list(Power=list(at=seq(10,20,1))),
+  xlab = "N1", ylab = "N2",
+  main = "Stationary distribution SLB",
+  col.regions = topo.colors(20)  #cm terrain topo heat
+)
+
+levelplot(
+  PI2 ~ N1*N2, data = data1, 
+  scales=list(Power=list(at=seq(10,20,1))),
+  xlab = "N1", ylab = "N2",
+  main = "Stationary distribution LB",
+  col.regions = topo.colors(20)  #cm terrain topo heat
+)
+
+levelplot(
+  DIFF ~ N1*N2, data = data1, 
+  scales=list(Power=list(at=seq(10,20,1))),
+  xlab = "N1", ylab = "N2",
+  main = "Difference",
+  col.regions = topo.colors(20)  #cm terrain topo heat
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,252 @@
+#petit script de test
+#!/bin/bash
+
+model1='mod50-V1';  #Nom du model créé
+model2='mod50-V2';  #Nom du model créé
+BufferSize='50'; #Capacité de la file
+nu1='0.2';
+nu2='0.8';
+
+
+#--------Suppresion des fichiers du modéle1 ---------------#
+
+if test -e $model1.cd
+then rm $model1.cd
+fi
+
+if test -e $model1.sz
+then rm $model1.sz
+fi
+
+if test -e $model1.Rii
+then rm $model1.Rii
+fi
+
+if test -e $model1.pi
+then rm $model1.pi
+fi
+
+if test -e $model1.ordre.Basique
+then rm $model1.ordre.Basique
+fi
+
+if test -e $model1.ordre.Lexico
+then rm $model1.ordre.Lexico
+fi
+
+if test -e $model1.ordre.Lexico.pi
+then rm $model1.ordre.Lexico.pi
+fi
+
+if test -e $model1.lexico.sz
+then rm $model1.lexico.sz
+fi
+
+if test -e $model1.lexico.cd
+then rm $model1.lexico.cd
+fi
+
+if test -e $model1.lexico.Rii
+then rm $model1.lexico.Rii
+fi
+
+if test -e $model1.lexico.resultat
+then rm $model1.lexico.resultat
+fi
+
+#--------Suppresion des fichiers du modéle2 ---------------#
+
+if test -e $model2.cd
+then rm $model2.cd
+fi
+
+if test -e $model2.sz
+then rm $model2.sz
+fi
+
+if test -e $model2.Rii
+then rm $model2.Rii
+fi
+
+if test -e $model2.pi
+then rm $model2.pi
+fi
+
+if test -e $model2.ordre.Basique
+then rm $model2.ordre.Basique
+fi
+
+if test -e $model2.ordre.Lexico
+then rm $model2.ordre.Lexico
+fi
+
+if test -e $model2.ordre.Lexico.pi
+then rm $model2.ordre.Lexico.pi
+fi
+
+if test -e $model2.lexico.sz
+then rm $model2.lexico.sz
+fi
+
+if test -e $model2.lexico.cd
+then rm $model2.lexico.cd
+fi
+
+if test -e $model2.lexico.Rii
+then rm $model2.lexico.Rii
+fi
+
+if test -e $model2.lexico.resultat
+then rm $model2.lexico.resultat
+fi
+
+if test -e $model1.$model2.comp
+then rm $model1.$model2.out
+fi
+
+
+#---------------- Début du traitement--------------------#
+
+for ((U = 1; U <$BufferSize; U += 1))
+do
+for ((D = 0; D <U ; D += 1))
+do
+
+#Generation de la chaine de markov
+gcc generMarkov.c -o genMarkov
+./genMarkov -f $model1 $U $D $nu1 $nu2 
+echo 'generation Done!'
+
+#Re ordonner la matrice
+gcc reordonnerMatr.c -o reordonnerMatr
+./reordonnerMatr $model1
+echo 'Matrice Reordonner!'
+
+#convertir de $model.lexico.Riu à  $model.lexico.Rii
+gcc convertir.c -o convertir
+./convertir  $model1.lexico.Riu  Rii
+echo 'convertion done !'
+
+#Calcul de la distribution stationnaire
+gcc gthLD.c -o gthLD 
+./gthLD -f $model1.lexico Rii
+echo 'gth Done!'
+
+#Calcul des recompenses (perte/energies)
+gcc rewardComponentMit.c -o rewardMit -lm
+./rewardMit -f $model1.lexico  $U $D 
+echo 'Rewards Done!'
+
+#----Model2----#
+
+#Generation de la chaine de markov
+gcc generMarkov.c -o genMarkov
+./genMarkov -f $model2 $U $D $nu2 $nu1 
+echo 'generation Done!'
+
+#Re ordonner la matrice
+gcc reordonnerMatr.c -o reordonnerMatr
+./reordonnerMatr $model2
+echo 'Matrice Reordonner!'
+
+#convertir de $model.lexico.Riu à  $model.lexico.Rii
+gcc convertir.c -o convertir
+./convertir  $model2.lexico.Riu  Rii
+echo 'convertion done !'
+
+#Calcul de la distribution stationnaire
+gcc gthLD.c -o gthLD 
+./gthLD -f $model2.lexico Rii
+echo 'gth Done!'
+
+#Calcul des recompenses (perte/energies)
+gcc rewardComponentMit.c -o rewardMit -lm
+./rewardMit -f $model2.lexico  $U $D 
+echo 'Rewards Done!'
+
+#comparaison des deux vecteurs de probas en st
+gcc comparerVect.c -o comparerVect
+./comparerVect $U $D 
+echo 'Comparaison Done'
+
+rm $model1.cd
+rm $model1.Rii
+rm $model1.sz
+rm $model1.lexico.cd
+rm $model1.lexico.Rii
+rm $model1.lexico.Riu
+rm $model1.lexico.sz
+rm $model1.lexico.pi
+
+rm $model2.cd
+rm $model2.Rii
+rm $model2.sz
+rm $model2.lexico.cd
+rm $model2.lexico.Rii
+rm $model2.lexico.Riu
+rm $model2.lexico.sz
+rm $model2.lexico.pi
+
+done
+done 
+
+
+#passer l'argumeent $model pour le script d'affichage R
+#chmod +x Draw.R
+#R CMD BATCH "--args $model.resultat" Draw.R
+
+#Calcul de la distribution stationnaire
+#gcc gthLD.c -o gthLD 
+#./gthLD -f $model.lexico Rii
+#echo 'gth Done!'
+
+
+
+
+
+#----------------Commentaires---------------------#
+#Re ordonner les etats du vecteur de probas
+#gcc reordonnerVect.c -o reordonnerVect
+#./reordonnerVect $model
+#echo 'Vecteur Reordonner!'
+
+
+#Tester la monotonie de la matrice
+#gcc main.c -o IsMonotone
+#./IsMonotone $model.lexico
+
+
+#Calcul de la distribution stationnaire
+#gcc gthLD.c -o gthLD 
+#./gthLD -f $model Rii
+#echo 'gth Done!'
+
+#Calcul des recompenses (perte/energies)
+#gcc rewardComponentMit.c -o rewardMit -lm
+#./rewardMit -f $model  $U $D 
+#echo 'Rewards Done!'
+
+
+#Re ordonner les etats du vecteur de probas
+#gcc reordonnerVect.c -o reordonnerVect
+#./reordonnerVect $model
+#echo 'Vecteur Reordonner!'
+
+
+#Calcul des recompenses (perte/energies)
+#gcc rewardComponentMit.c -o rewardMit -lm
+#"./rewardMit -f $model  $U $D 
+#echo 'Rewards Done!'
+
+
+
+
+
+
+
+
+
+
+
+
+

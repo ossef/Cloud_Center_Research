@@ -1,0 +1,59 @@
+# -----------! pour lancer et obtenir temps d'execution en seconde du script : "time -p ./script" !--------------
+
+#petit script de test
+#!/bin/bash
+
+model='LB-mod-50';  #Nom du model créé
+
+
+
+if test -e $model.cd
+then rm $model.cd
+fi
+
+if test -e $model.sz
+then rm $model.sz
+fi
+
+if test -e $model.Rii
+then rm $model.Rii
+fi
+
+if test -e $model.pi
+then rm $model.pi
+fi
+
+#if test -e $model.resultat
+#then 
+#rm $model.resultat
+#fi
+
+
+#Generation de la chaine de markov
+gcc generMarkov.c -o genMarkov
+./genMarkov -f $model  
+echo 'Markov generation done !'
+
+#Calcul de la distribution stationnaire
+gcc gthLD.c -o gthLD 
+./gthLD -f $model Rii
+echo 'Sationnary distribution  done !'
+
+#generation du fichier TGF
+gcc Lam2TGF.c -o lamtgf
+./lamtgf -f $model
+echo 'TGFgeneration done !'
+
+
+#Calcul des Marginales
+gcc Marginal.c -o Marginal
+./Marginal -f $model   
+
+
+#passer l'argumeent $model pour le script d'affichage R
+chmod +x Draw.R
+R CMD BATCH "--args $model.marginale.0.pi $model.marginale.1.pi " Draw.R
+
+
+
+

@@ -1,0 +1,27 @@
+#petit script de test
+#!/bin/bash
+
+gamax='41';
+Ebmax='20';
+alpha='100';
+
+
+if test -e Jackson.resultat
+then rm Jackson.resultat
+fi
+
+
+gcc Model-Jakson.c -o model-jakson -lm
+
+for ((Eb = 0; Eb< $Ebmax; Eb+=1 ))
+do
+
+for ((gamma12 = 0; gamma12 < $gamax; gamma12+=1 ))
+do  
+
+
+./model-jakson $gamma12 $alpha $Eb
+
+
+done
+done

@@ -1,0 +1,24 @@
+#petit script de test
+#!/bin/bash
+
+Ebmax='5';
+alpha='100';
+
+
+#---------------------------------Calcule de l'opt-------------------------------
+
+
+if test -e Greedy_Energy.resultat
+then rm Greedy_Energy.resultat
+fi
+
+gcc Model-Jakson-Opt-N.c -o Jakson-opt -lm
+
+for ((Eb = 1 ; Eb< $Ebmax; Eb+=1 ))
+do  
+
+
+./Jakson-opt $alpha $Eb
+
+
+done

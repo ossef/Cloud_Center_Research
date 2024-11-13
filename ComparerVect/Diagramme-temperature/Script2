@@ -1,0 +1,13 @@
+#petit script de test
+#!/bin/bash
+
+
+if test -e "Resultat.out"
+then rm "Resultat.out"
+fi
+
+gcc Fusionner.c  -lm -o fusion
+./fusion
+
+
+R CMD BATCH "Draw.R"

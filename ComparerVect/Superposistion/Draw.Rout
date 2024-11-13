@@ -1,0 +1,297 @@
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R est un logiciel libre livré sans AUCUNE GARANTIE.
+Vous pouvez le redistribuer sous certaines conditions.
+Tapez 'license()' ou 'licence()' pour plus de détails.
+
+R est un projet collaboratif avec de nombreux contributeurs.
+Tapez 'contributors()' pour plus d'information et
+'citation()' pour la façon de le citer dans les publications.
+
+Tapez 'demo()' pour des démonstrations, 'help()' pour l'aide
+en ligne ou 'help.start()' pour obtenir l'aide au format HTML.
+Tapez 'q()' pour quitter R.
+
+[Sauvegarde de la session précédente restaurée]
+
+> 
+> 
+> nom1 = "exp0.0.pi"
+> nom2 = "exp0.1.pi"
+> nom3 = "exp1.0.pi"
+> nom4 = "exp1.1.pi"
+> nom5 = "exp2.0.pi"
+> nom6 = "exp2.1.pi"
+> nom7 = "exp3.0.pi"
+> nom8 = "exp3.1.pi"
+> nom9 = "exp4.0.pi"
+> nom10 = "exp4.1.pi"
+> 
+> 
+> 
+> 
+> data1 = read.table(nom1)
+> attach(data1);
+> I =V1
+> PI1 =V2
+> 
+> data2 = read.table(nom2)
+> attach(data2);
+The following objects are masked from data1:
+
+    V1, V2
+
+> I =V1
+> PI2 =V2
+> 
+> data3 = read.table(nom3)
+> attach(data3);
+The following objects are masked from data2:
+
+    V1, V2
+
+The following objects are masked from data1:
+
+    V1, V2
+
+> I =V1
+> PI3 =V2
+> 
+> data4 = read.table(nom4)
+> attach(data4);
+The following objects are masked from data3:
+
+    V1, V2
+
+The following objects are masked from data2:
+
+    V1, V2
+
+The following objects are masked from data1:
+
+    V1, V2
+
+> I =V1
+> PI4 =V2
+> 
+> data5 = read.table(nom5)
+> attach(data5);
+The following objects are masked from data4:
+
+    V1, V2
+
+The following objects are masked from data3:
+
+    V1, V2
+
+The following objects are masked from data2:
+
+    V1, V2
+
+The following objects are masked from data1:
+
+    V1, V2
+
+> I =V1
+> PI5 =V2
+> 
+> data6 = read.table(nom6)
+> attach(data6);
+The following objects are masked from data5:
+
+    V1, V2
+
+The following objects are masked from data4:
+
+    V1, V2
+
+The following objects are masked from data3:
+
+    V1, V2
+
+The following objects are masked from data2:
+
+    V1, V2
+
+The following objects are masked from data1:
+
+    V1, V2
+
+> I =V1
+> PI6 =V2
+> 
+> data7 = read.table(nom7)
+> attach(data7);
+The following objects are masked from data6:
+
+    V1, V2
+
+The following objects are masked from data5:
+
+    V1, V2
+
+The following objects are masked from data4:
+
+    V1, V2
+
+The following objects are masked from data3:
+
+    V1, V2
+
+The following objects are masked from data2:
+
+    V1, V2
+
+The following objects are masked from data1:
+
+    V1, V2
+
+> I =V1
+> PI7 =V2
+> 
+> data8 = read.table(nom8)
+> attach(data8);
+The following objects are masked from data7:
+
+    V1, V2
+
+The following objects are masked from data6:
+
+    V1, V2
+
+The following objects are masked from data5:
+
+    V1, V2
+
+The following objects are masked from data4:
+
+    V1, V2
+
+The following objects are masked from data3:
+
+    V1, V2
+
+The following objects are masked from data2:
+
+    V1, V2
+
+The following objects are masked from data1:
+
+    V1, V2
+
+> I =V1
+> PI8 =V2
+> 
+> data9 = read.table(nom9)
+> attach(data9);
+The following objects are masked from data8:
+
+    V1, V2
+
+The following objects are masked from data7:
+
+    V1, V2
+
+The following objects are masked from data6:
+
+    V1, V2
+
+The following objects are masked from data5:
+
+    V1, V2
+
+The following objects are masked from data4:
+
+    V1, V2
+
+The following objects are masked from data3:
+
+    V1, V2
+
+The following objects are masked from data2:
+
+    V1, V2
+
+The following objects are masked from data1:
+
+    V1, V2
+
+> I =V1
+> PI9 =V2
+> 
+> data10 = read.table(nom10)
+> attach(data10);
+The following objects are masked from data9:
+
+    V1, V2
+
+The following objects are masked from data8:
+
+    V1, V2
+
+The following objects are masked from data7:
+
+    V1, V2
+
+The following objects are masked from data6:
+
+    V1, V2
+
+The following objects are masked from data5:
+
+    V1, V2
+
+The following objects are masked from data4:
+
+    V1, V2
+
+The following objects are masked from data3:
+
+    V1, V2
+
+The following objects are masked from data2:
+
+    V1, V2
+
+The following objects are masked from data1:
+
+    V1, V2
+
+> I =V1
+> PI10 =V2
+> 
+> 
+> 
+> plot(I,PI1,type="l",col="black",xlab="i",ylab="Marginale(i)")
+> lines(PI2,type="l",col="black")
+> lines(PI3,type="l",col="yellow")
+> lines(PI4,type="l",col="yellow")
+> lines(PI5,type="l",col="pink")
+> lines(PI6,type="l",col="pink")
+> lines(PI7,type="l",col="green")
+> lines(PI8,type="l",col="green")
+> lines(PI9,type="l",col="red")
+> lines(PI10,type="l",col="red")
+> title("Superposition de 5 courbes")
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> proc.time()
+utilisateur     système      écoulé 
+      0.360       0.016       0.372 

@@ -1,0 +1,161 @@
+#petit script de test
+#!/bin/bash
+
+
+#--------------------------------------LA PARTIE SANS LB-----------------------------------------#
+model1='SLB-mod-20';  #Nom du model créé
+gamma12='0';
+Eb='0';
+alpha='100';
+
+
+if test -e $model1.resultat
+then rm $model1.resultat
+fi
+
+
+if test -e $model1.cd
+then rm $model1.cd
+fi
+
+if test -e $model1.sz
+then rm $model1.sz
+fi
+
+if test -e $model1.Rii
+then rm $model1.Rii
+fi
+
+if test -e $model1-reordre.cd
+then rm $model1-reordre.cd
+fi
+
+if test -e $model1-reordre.sz
+then rm $model1-reordre.sz
+fi
+
+if test -e $model1-reordre.Rii
+then rm $model1-reordre.Rii
+fi
+
+if test -e $model1.tgf
+then rm $model1.tgf
+fi
+
+if test -e $model1.pi
+then rm $model1.pi
+fi
+
+if test -e $model1-reordre.pi
+then rm $model1-reordre.pi
+fi
+
+#Generer la matrice de rewards
+gcc StateRewardMatrix.c -o StateReward
+./StateReward $gamma12 $alpha $Eb
+
+#Generation de la chaine de markov
+gcc generMarkov.c -o genMarkov
+./genMarkov -f $model1  $gamma12
+echo 'Markov generation done !'
+
+#Re-ordronner la matrice et donc le vecteur PI, en ordre St
+gcc Re-ordre-Matrice.c -o reordre
+./reordre $model1
+
+#generation du fichier TGF
+gcc Lam2TGF.c -o lamtgf
+./lamtgf -f $model1-reordre
+echo 'TGFgeneration done !'
+
+#Calcul de la distribution stationnaire
+gcc gthLD.c -o gthLD 
+./gthLD -f $model1-reordre Rii
+echo 'Sationnary distribution  done !'
+
+
+
+#--------------------------------------LA PARTIE AVEC LB-----------------------------------------#
+model='LB-mod-20';  #Nom du model créé
+gamma12='5';
+Eb='5';
+alpha='100';
+
+
+if test -e $model.resultat
+then rm $model.resultat
+fi
+
+
+if test -e $model.cd
+then rm $model.cd
+fi
+
+if test -e $model.sz
+then rm $model.sz
+fi
+
+if test -e $model.Rii
+then rm $model.Rii
+fi
+
+if test -e $model-reordre.cd
+then rm $model-reordre.cd
+fi
+
+if test -e $model-reordre.sz
+then rm $model-reordre.sz
+fi
+
+if test -e $model-reordre.Rii
+then rm $model-reordre.Rii
+fi
+
+if test -e $model.tgf
+then rm $model.tgf
+fi
+
+if test -e $model.pi
+then rm $model.pi
+fi
+
+if test -e $model-reordre.pi
+then rm $model-reordre.pi
+fi
+
+#Generer la matrice de rewards
+gcc StateRewardMatrix.c -o StateReward
+./StateReward $gamma12 $alpha $Eb
+
+#Generation de la chaine de markov
+gcc generMarkov.c -o genMarkov
+./genMarkov -f $model  $gamma12
+echo 'Markov generation done !'
+
+#Re-ordronner la matrice et donc le vecteur PI, en ordre St
+gcc Re-ordre-Matrice.c -o reordre
+./reordre $model
+
+#generation du fichier TGF
+gcc Lam2TGF.c -o lamtgf
+./lamtgf -f $model-reordre
+echo 'TGFgeneration done !'
+
+#Calcul de la distribution stationnaire
+gcc gthLD.c -o gthLD 
+./gthLD -f $model-reordre Rii
+echo 'Sationnary distribution  done !'
+
+
+
+
+
+
+#---------------------------------LA PARTIE COMPARAISON ST------------------------------#
+gcc TestOrdreSt.c -o TestOrdre
+./TestOrdre $model-reordre $model1-reordre # Pi(LB) <st Pi(SLB) ?
+
+#-------------------------------------FIN DU SCRIPT-------------------------------------#
+
+
+

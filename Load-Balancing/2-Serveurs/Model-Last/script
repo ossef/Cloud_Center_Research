@@ -1,0 +1,64 @@
+#petit script de test
+#!/bin/bash
+
+model='LB-mod-10';  #Nom du model créé
+gamax='101';
+alpha='100';
+
+
+if test -e $model.resultat
+then rm $model.resultat
+fi
+
+
+for ((gamma12 = 0; gamma12 < $gamax; gamma12+=1 ))
+do 
+
+if test -e $model.cd
+then rm $model.cd
+fi
+
+if test -e $model.sz
+then rm $model.sz
+fi
+
+if test -e $model.Rii
+then rm $model.Rii
+fi
+
+if test -e $model.pi
+then rm $model.pi
+fi
+
+
+#Generation de la chaine de markov
+gcc generMarkov.c -o genMarkov
+./genMarkov -f $model  $gamma12
+echo 'Markov generation done !'
+
+#Calcul de la distribution stationnaire
+gcc gthLD.c -o gthLD 
+./gthLD -f $model Rii
+echo 'Sationnary distribution  done !'
+
+#generation du fichier TGF
+gcc Lam2TGF.c -o lamtgf
+./lamtgf -f $model
+echo 'TGFgeneration done !'
+
+#Calcul des recompenses (perte/energies)
+gcc rewardComponentMit.c -o rewardMit -lm
+./rewardMit -f $model $gamma12 $alpha
+
+#for ((alpha = 0; alpha <111 ; alpha += 10))
+#do 
+#./rewardMit -f $model $gamma12 $alpha
+#done
+
+done
+
+
+
+
+
+

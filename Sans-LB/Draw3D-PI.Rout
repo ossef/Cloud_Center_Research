@@ -1,0 +1,53 @@
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R est un logiciel libre livré sans AUCUNE GARANTIE.
+Vous pouvez le redistribuer sous certaines conditions.
+Tapez 'license()' ou 'licence()' pour plus de détails.
+
+R est un projet collaboratif avec de nombreux contributeurs.
+Tapez 'contributors()' pour plus d'information et
+'citation()' pour la façon de le citer dans les publications.
+
+Tapez 'demo()' pour des démonstrations, 'help()' pour l'aide
+en ligne ou 'help.start()' pour obtenir l'aide au format HTML.
+Tapez 'q()' pour quitter R.
+
+[Sauvegarde de la session précédente restaurée]
+
+> 
+> variables = commandArgs(trailingOnly=TRUE)
+> modelname1 = variables[1]
+> modelname2 = variables[2]
+> 
+> data1 = read.table(modelname1)
+> attach(data1);
+> n = V1
+> x1 =V2
+> x2 =V3
+> 
+> data2= read.table(modelname2)
+> attach(data2);
+The following object is masked from data1:
+
+    V1
+
+> pi = V1
+> 
+> 
+> library(lattice)
+> 
+> 
+> levelplot(
++   pi ~ x1*x2, data = data, 
++   xlab = "x1", ylab = "x2",
++   main = "Stationnary Distribution without LB",
++   col.regions = topo.colors(20)  #cm terrain topo heat
++ )
+> 
+> 
+> proc.time()
+utilisateur     système      écoulé 
+      0.432       0.016       0.451 

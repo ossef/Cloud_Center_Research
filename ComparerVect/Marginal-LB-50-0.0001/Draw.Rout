@@ -1,0 +1,53 @@
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R est un logiciel libre livré sans AUCUNE GARANTIE.
+Vous pouvez le redistribuer sous certaines conditions.
+Tapez 'license()' ou 'licence()' pour plus de détails.
+
+R est un projet collaboratif avec de nombreux contributeurs.
+Tapez 'contributors()' pour plus d'information et
+'citation()' pour la façon de le citer dans les publications.
+
+Tapez 'demo()' pour des démonstrations, 'help()' pour l'aide
+en ligne ou 'help.start()' pour obtenir l'aide au format HTML.
+Tapez 'q()' pour quitter R.
+
+> 
+> variables = commandArgs(trailingOnly=TRUE)
+> model1 = variables[1]
+> model2 = variables[2]
+> 
+> 
+> data1 = read.table(model1)
+> attach(data1);
+> I =V1
+> PI0 =V2
+> 
+> 
+> 
+> data2 = read.table(model2)
+> attach(data2);
+The following objects are masked from data1:
+
+    V1, V2
+
+> I =V1
+> PI1 =V2
+> 
+> 
+> 
+> plot(I,PI0,type="l",xlab="i",ylab="Marginale(i)")
+> title("Spectre Marginale de Pi0 et Pi1") 
+> lines(PI1,type="l",col="red")
+> legend(40, 0.145, legend=c("Pi0", "Pi1"),
++        col=c("black", "red"), lty=1:1, cex=1.2)
+> 
+> 
+> 
+> 
+> proc.time()
+utilisateur     système      écoulé 
+      0.284       0.016       0.297 

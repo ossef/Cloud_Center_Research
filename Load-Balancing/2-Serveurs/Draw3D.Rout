@@ -1,0 +1,62 @@
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R est un logiciel libre livré sans AUCUNE GARANTIE.
+Vous pouvez le redistribuer sous certaines conditions.
+Tapez 'license()' ou 'licence()' pour plus de détails.
+
+R est un projet collaboratif avec de nombreux contributeurs.
+Tapez 'contributors()' pour plus d'information et
+'citation()' pour la façon de le citer dans les publications.
+
+Tapez 'demo()' pour des démonstrations, 'help()' pour l'aide
+en ligne ou 'help.start()' pour obtenir l'aide au format HTML.
+Tapez 'q()' pour quitter R.
+
+[Sauvegarde de la session précédente restaurée]
+
+> 
+> variables = commandArgs(trailingOnly=TRUE)
+> modelname = variables[1]
+> 
+> data = read.table(modelname)
+> attach(data);
+> e0 =V1
+> e1 =V2
+> eb =V3
+> Power =V4
+> 
+> library("plot3D")
+> library(lattice)
+> 
+> 
+> 
+> png(file="example%03d.png", width=600, heigh=600)
+>   for (i in seq(0, 250 ,2)){
++    scatter3D(e0,e1,eb,colvar = Power,clab = c("Power"),ticktype = "detailed",type = "h",pch = 15, cex = 1, phi = 40, theta = i,xlab = "e0",ylab="e1",zlab="eb")
++   }
+> dev.off()
+null device 
+          1 
+> # convert pngs to one gif using ImageMagick
+> system("convert -delay 40 *.png spectre.gif")
+> 
+> # cleaning up
+> file.remove(list.files(pattern=".png"))
+  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+ [16] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+ [31] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+ [46] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+ [61] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+ [76] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+ [91] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[106] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[121] TRUE TRUE TRUE TRUE TRUE TRUE
+> 
+> 
+> 
+> proc.time()
+utilisateur     système      écoulé 
+     48.188       9.612      54.409 

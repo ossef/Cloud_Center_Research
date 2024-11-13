@@ -1,0 +1,48 @@
+#petit script de test
+#!/bin/bash
+
+gamax='201';
+Ebmax='5';
+alpha='100';
+
+
+#if test -e Jackson.resultat
+#then rm Jackson.resultat
+#fi
+
+#if test -e Fonction_gamma.resultat
+#then rm Fonction_gamma.resultat
+#fi
+
+#gcc Model-Jakson.c -o model-jakson -lm
+
+#for ((Eb = 0; Eb< $Ebmax; Eb+=1 ))
+#do
+
+#for ((gamma12 = 0; gamma12 < $gamax; gamma12+=1 ))
+#do  
+
+
+#./model-jakson $gamma12 $alpha $Eb
+
+
+#done
+#done
+
+#---------------------------------Calcule de l'opt-------------------------------
+
+
+if test -e Fonction_Opt.resultat
+then rm Fonction_Opt.resultat
+fi
+
+gcc Model-Jakson-Opt.c -o model-jakson-opt -lm
+
+for ((Eb = 1; Eb< $Ebmax; Eb+=1 ))
+do  
+
+
+./model-jakson-opt $alpha $Eb
+
+
+done

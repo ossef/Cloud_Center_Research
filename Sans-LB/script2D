@@ -1,0 +1,83 @@
+#petit script de test
+#!/bin/bash
+
+model='SLB-mod-50';  #Nom du model créé
+
+
+
+if test -e $model.cd
+then rm $model.cd
+fi
+
+if test -e $model.sz
+then rm $model.sz
+fi
+
+if test -e $model.Rii
+then rm $model.Rii
+fi
+
+if test -e $model.pi
+then rm $model.pi
+fi
+
+if test -e $model.resultat
+then 
+rm $model.resultat
+fi
+
+
+#Generation de la chaine de markov
+gcc generMarkov.c -o genMarkov
+./genMarkov -f $model  
+echo 'Markov generation done !'
+
+#Calcul de la distribution stationnaire
+gcc gthLD.c -o gthLD 
+./gthLD -f $model Rii
+echo 'Sationnary distribution  done !'
+
+#Calcul des Marginales
+gcc Marginal.c -o Marginal
+./Marginal -f $model  
+
+#generation du fichier TGF
+gcc Lam2TGF.c -o lamtgf
+./lamtgf -f $model
+echo 'TGFgeneration done !'
+
+
+#Calcul des recompenses (perte/energies)
+gcc rewardComponentMit.c -o rewardMit -lm
+
+
+
+#for ((e1 = 0; e1 <20 ; e1 += 1))
+#do
+#for ((e0 = 0; e0 <e1; e0 += 1))
+#do
+#done
+#done 
+  
+for ((eb = 0; eb <20; eb += 1))
+do 
+
+./rewardMit -f $model  10 15
+
+done
+
+
+
+#passer l'argumeent $model pour le script d'affichage R pour afficher la Distribution Staitonnaire
+#chmod +x Draw3D.R
+#R CMD BATCH "--args $model.cd $model.pi" Draw3D-PI.R
+
+#passer l'argumeent $model pour le script d'affichage R pour afficher l'energie en 4D
+#chmod +x Draw3D.R
+#R CMD BATCH "--args $model.resultat" Draw3D.R
+
+#passer l'argumeent $model pour le script d'affichage R pour afficher e1,e0,E
+chmod +x Draw2D.R
+R CMD BATCH "--args $model.resultat" Draw2D.R
+
+echo 'Fin script !'
